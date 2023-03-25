@@ -1,7 +1,6 @@
 package api
 
 import (
-	
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,17 +19,17 @@ func CreateLicense(c *gin.Context) {
 
 	var input model.LicenseInput
 	if err := c.ShouldBindJSON(&input); err != nil {
-	  c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	  return
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
-  
+
 	license := model.License{ShortName: input.ShortName, LongName: input.LongName, Url: input.Url}
 	model.DB.Create(&license)
-  
+
 	c.JSON(http.StatusOK, gin.H{"data": license})
 }
 
-func FindLicense(c *gin.Context) {  // Get model if exist
+func FindLicense(c *gin.Context) { // Get model if exist
 	var license model.License
 	var queryParam string
 	var ok bool
@@ -43,12 +42,12 @@ func FindLicense(c *gin.Context) {  // Get model if exist
 			return
 		}
 
-	if err := model.DB.Where("shortname = ?", queryParam).First(&license).Error; err != nil {
-	  c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
-	  return
+		if err := model.DB.Where("shortname = ?", queryParam).First(&license).Error; err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"data": license})
 	}
-  
-	c.JSON(http.StatusOK, gin.H{"data": license})
-  }
-  
+
 }

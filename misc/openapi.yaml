@@ -1,0 +1,289 @@
+openapi: 3.0.3
+info:
+  title: License as a service
+  version: '1.0'
+  description: >-
+    This is a example api for license as a service project. This API is used for
+    fetch the data of open source license.
+  x-logo:
+    url: ''
+servers:
+  - url: https://api.example.io
+paths:
+  /licenses:
+    summary: get list of all licenses
+    get:
+      tags: []
+      parameters:
+        - $ref: '#/components/parameters/OSIapproved'
+          name: OSIapproved
+          x-last-modified: 1680080231284
+        - $ref: '#/components/parameters/GPLv2compatible'
+          name: GPLv2compatible
+          x-last-modified: 1680080275801
+        - $ref: '#/components/parameters/GPLv3compatible'
+          name: GPLv3compatible
+          allowEmptyValue: false
+          x-last-modified: 1680080478403
+        - $ref: '#/components/parameters/spdxcompatible'
+          name: spdxcompatible
+          x-last-modified: 1680080517691
+        - $ref: '#/components/parameters/copyleft'
+          name: copyleft
+          x-last-modified: 1680080668405
+        - $ref: '#/components/parameters/FSFfree'
+          name: FSFfree
+          x-last-modified: 1680080694812
+        - $ref: '#/components/parameters/flag'
+          name: flag
+          x-last-modified: 1680080708180
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+          x-last-modified: 1680030101902
+      summary: Get the list of licenses.
+      description: >
+        Get the list of licenses based upon the query parameters. For example,
+        using copyleft query we can get the list of licenses that are copyleft.
+    x-last-modified: 1680029072591
+  /license:
+    summary: get the license with some specifications like url,shortname and fullname.
+    description: ''
+    get:
+      tags: []
+      parameters:
+        - $ref: '#/components/parameters/fullname'
+          name: fullname
+          x-last-modified: 1680080884167
+        - $ref: '#/components/parameters/url'
+          name: url
+          x-last-modified: 1680080902202
+        - $ref: '#/components/parameters/name'
+          name: ' name'
+          allowEmptyValue: false
+          x-last-modified: 1680101501849
+      responses:
+        '200':
+          $ref: '#/components/responses/LicenseResponse'
+          x-last-modified: 1680101203610
+      operationId: ''
+      summary: Get data of a particular license
+      description: >
+        To get the data of a particular license based upon the query parameters
+        like name, full name and url.
+    x-last-modified: 1680080830010
+  /license/{shortname}:
+    get:
+      tags: []
+      parameters:
+        - $ref: '#/components/parameters/shortname'
+          name: shortname
+          x-last-modified: 1680101353056
+      responses:
+        '200':
+          $ref: '#/components/responses/LicenseResponse'
+          x-last-modified: 1680101374577
+      summary: Get the data of license that has shortname id in path.
+      description: >-
+        To get the data of the particular license that has the short name same
+        as provided by the path parameter. For example, if the short name of a
+        license is "BLAAHH" it get all the data of the license.
+    x-last-modified: 1680101320136
+components:
+  schemas:
+    license:
+      description: It is the struct of license that has the data set of a license.
+      required:
+        - shortname
+        - fullname
+        - url
+        - text
+      type: object
+      properties:
+        shortname:
+          type: string
+        fullname:
+          type: string
+        url:
+          type: string
+        copyleft:
+          type: boolean
+        GPLv2compatible:
+          type: string
+        GPLv3compatible:
+          type: string
+        spdxcompstible:
+          type: string
+        OSIapproved:
+          type: boolean
+        flag:
+          type: string
+        text:
+          type: string
+        FSFfree:
+          type: string
+      x-last-modified: 1680114264895
+    licenses:
+      description: It is array of struct of licenses it contains list of license.
+      required:
+        - licenses
+      type: object
+      properties:
+        licenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/license'
+      x-last-modified: 1680114374517
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/licenses'
+      description: >-
+        It give the response as the array of license of struct i.e, the list of
+        licenses
+      x-last-modified: 1680113649791
+    LicenseResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/license'
+      description: It gives the response in the form of license as the data of struct.
+      x-last-modified: 1680113553706
+  parameters:
+    name:
+      deprecated: false
+      name: name
+      description: >-
+        Refers to the short name data of the license. This query parameter is
+        used to get data of a license by its short name.
+      schema:
+        type: string
+      in: query
+      required: false
+      allowEmptyValue: false
+      x-last-modified: 1680109555421
+    fullname:
+      deprecated: false
+      name: fullname
+      description: >-
+        Refers to the full name data of the license. This query parameter is
+        used to get data of a license by its full name.
+      schema:
+        type: string
+      in: query
+      required: false
+      allowEmptyValue: false
+      x-last-modified: 1680109585868
+    copyleft:
+      deprecated: false
+      name: copyleft
+      description: >-
+        Refers to the copy left data of the license. This query parameter is
+        used to get data of a licenses if they are copyleft.
+      schema:
+        type: string
+      in: query
+      required: false
+      allowEmptyValue: false
+      x-last-modified: 1680109645478
+    OSIapproved:
+      deprecated: false
+      name: OSIapproved
+      description: >-
+        Refers to the OSIapproved data of the license. This query parameter is
+        used to get data of a licenses if they are OSIapproved.
+      schema:
+        type: string
+      in: query
+      required: false
+      allowEmptyValue: false
+      x-last-modified: 1680109730144
+    GPLv2compatible:
+      deprecated: false
+      name: GPLv2compatible
+      description: >-
+        Refers to the GPLv2compatible data of the license. This query parameter
+        is used to get data of a licenses if they are GPLv2compatible.
+      schema:
+        type: string
+      in: query
+      required: false
+      allowEmptyValue: false
+      x-last-modified: 1680109796904
+    GPLv3compatible:
+      deprecated: false
+      name: GPLv3compatible
+      description: >-
+        Refers to the GPLv3compatible data of the license. This query parameter
+        is used to get data of a licenses if they are GPLv3compatible.
+      schema:
+        type: string
+      in: query
+      required: false
+      allowEmptyValue: false
+      x-last-modified: 1680109811863
+    spdxcompatible:
+      deprecated: false
+      name: spdxcompatible
+      description: >-
+        Refers to the spdxcompatible data of the license. This query parameter
+        is used to get data of a licenses if they are spdxcompatible.
+      schema:
+        type: string
+      in: query
+      required: false
+      allowEmptyValue: false
+      x-last-modified: 1680109835789
+    FSFfree:
+      deprecated: false
+      name: FSFfree
+      description: >-
+        Refers to the FSFfree data of the license. This query parameter is used
+        to get data of a licenses if they are FSFfree.
+      schema:
+        type: string
+      in: query
+      required: false
+      allowEmptyValue: false
+      x-last-modified: 1680109888095
+    url:
+      deprecated: false
+      name: url
+      description: >-
+        Refers to the url data of the license. This query parameter is used to
+        get data of a license by its url.
+      schema:
+        type: string
+      in: query
+      required: false
+      allowEmptyValue: false
+      x-last-modified: 1680110091653
+    shortname:
+      deprecated: false
+      name: shortname
+      description: >-
+        Refers to the short name data of the license. This path parameter is
+        used to get data of a license by its short name.
+      schema:
+        type: string
+      in: path
+      required: true
+      x-last-modified: 1680110226777
+    flag:
+      deprecated: false
+      name: flag
+      description: >-
+        Refers to the flag data of the license. This query parameter is used to
+        get data of a licenses if the value of their flag is "1".
+      schema:
+        type: string
+      in: query
+      required: false
+      allowEmptyValue: false
+      x-last-modified: 1680110308148
+  securitySchemes: {}
+  headers: {}
+tags: []
+security: []

@@ -71,6 +71,55 @@ paths:
       description: >
         To get the data of a particular license based upon the query parameters
         like name, full name and url.
+    put:
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/license'
+        required: false
+      responses:
+        '200':
+          $ref: '#/components/responses/PutResponse'
+          x-last-modified: 1680431076683
+      summary: Update the license in the license database.
+      description: ''
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/license'
+        required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/PostResponse'
+          x-last-modified: 1680428845527
+      summary: Add a license in a database.
+      description: ''
+    delete:
+      parameters:
+        - $ref: '#/components/parameters/name'
+          name: shortname
+          x-last-modified: 1680430610163
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: ''
+                pattern: ''
+                type: string
+                externalDocs:
+                  description: ''
+                  url: ''
+                example: ''
+              example: ''
+          description: ''
+          x-last-modified: 1680431627123
+      summary: Delete a perticular license from the database.
+      description: ''
     x-last-modified: 1680080830010
   /license/{shortname}:
     get:
@@ -151,6 +200,31 @@ components:
             $ref: '#/components/schemas/license'
       description: It gives the response in the form of license as the data of struct.
       x-last-modified: 1680113553706
+    PostResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/license'
+      description: Response to show that the license is added to the database .
+      x-last-modified: 1680428820924
+    PutResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/license'
+      description: Response shows that license is updated
+      x-last-modified: 1680431041700
+    'DeleteResponse':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+      description: |
+        Response to show that the license is deleted
+      x-last-modified: 1680431818232
   parameters:
     name:
       deprecated: false
@@ -283,7 +357,16 @@ components:
       required: false
       allowEmptyValue: false
       x-last-modified: 1680110308148
-  securitySchemes: {}
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: bearer
+      description: |-
+        Example: 
+        > Authorization: Basic ZGVtbzpwQDU1dzByZA ==
+      x-last-modified: 1680433140645
+      bearerFormat: ''
   headers: {}
 tags: []
-security: []
+security:
+  - BasicAuth: []
